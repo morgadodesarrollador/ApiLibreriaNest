@@ -1,11 +1,13 @@
-import { BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { profile } from "console";
+import { Profile } from "src/modules/profile/entities/profile.entity";
+import { BeforeInsert, Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Cliente } from '../../clientes/entities/cliente.entity';
 
 @Entity()
 export class Libro {
 
-    @PrimaryGeneratedColumn('increment')
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    idCliente: string;
 
     @Column('text', { 
         unique: true
@@ -54,11 +56,11 @@ export class Libro {
     )
     cliente?: Cliente
 
-
+    
 
     @BeforeInsert()
     checkTitle(){
-        this.title = this.thumbnailUrl.toUpperCase()
+        this.title = this.title.toUpperCase()
     }
 
     @BeforeInsert()

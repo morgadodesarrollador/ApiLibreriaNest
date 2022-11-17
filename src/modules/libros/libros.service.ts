@@ -20,20 +20,17 @@ export class LibrosService {
 
   async create(createLibroDto: CreateLibroDto) {
     try {
-      //prepara la consulta
-      console.log(createLibroDto);
-      const id = +createLibroDto.idCliente;
-      const cliente = this.clienteService.findOne(id);
-      
-      //const libro = this.libroRepository.create(createLibroDto)
-
-      //se lanza la petición sl SGBD (postgres). Esperar (x seg)
-      //await this.libroRepository.save(libro)
-      //return libro;
-      return cliente
-      
+     
+      const { idCliente, ...campos } = createLibroDto;
+      // console.log({...campos});
+      const cliente = this.clienteService.findOne(idCliente);
+      const libro = this.libroRepository.create({...campos});
+      libro.cliente = await this.clienteService.findOne(idCliente);
+      // //se lanza la petición sl SGBD (postgres). Esperar (x seg)
+      await this.libroRepository.save(libro)
+      return libro
     } catch (error) {
-        return new InternalServerErrorException('Error en BD∫')
+        return new InternalServerErrorException('Error en BD')
     }
   }
 

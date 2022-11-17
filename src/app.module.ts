@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientesModule } from './modules/clientes/clientes.module';
 import { LibrosModule } from './modules/libros/libros.module';
+import { ProfileModule } from './modules/profile/profile.module';
 
 
 @Module({
@@ -19,7 +20,8 @@ import { LibrosModule } from './modules/libros/libros.module';
       synchronize:true
     }),
     ClientesModule,
-    LibrosModule
+    LibrosModule,
+    ProfileModule
   
   
   ],

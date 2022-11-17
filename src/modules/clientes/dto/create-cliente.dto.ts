@@ -2,9 +2,6 @@ import { IsIn, IsNumber, IsPositive, IsString, MinLength } from "class-validator
 
 export class CreateClienteDto {
 
-    // @IsNumber()
-    // @IsPositive()
-    // id: number;
 
     @IsString()
     @MinLength(1)
@@ -26,10 +23,10 @@ export class CreateClienteDto {
     @MinLength(1)
     twitter: string;
 
-    @IsString()
-    @MinLength(1)
-    @IsIn(['anaya', 'marcombo'])
-    editorial: string;
+    // @IsString()
+    // @MinLength(1)
+    // @IsIn(['anaya', 'marcombo'])
+    // editorial: string;
 
 
 }

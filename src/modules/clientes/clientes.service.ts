@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { Cliente } from './entities/cliente.entity';
+import { Libro } from '../libros/entities/libro.entity';
 
 @Injectable()
 export class ClientesService {
@@ -32,10 +33,14 @@ export class ClientesService {
     return this.clienteRepository.find({});
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.clienteRepository.findOne({
-      where: 
-        { id: id}
+      where: { 
+        id 
+      },
+      relations: {
+          libros: true,
+      }
     });
   }
 
