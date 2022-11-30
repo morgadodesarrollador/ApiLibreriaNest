@@ -5,23 +5,23 @@ export class CreateClienteDto {
 
     @IsString()
     @MinLength(1)
-    name: string;
+    nombre: string;
 
     @IsString()
     @MinLength(1)
-    email: string;
+    apellidos: string;
 
     @IsString()
     @MinLength(1)
-    website: string;
+    direccion: string;
 
     @IsString()
     @MinLength(1)
-    github: string;
+    ciudad: string;
 
     @IsString()
     @MinLength(1)
-    twitter: string;
+    localidad: string;
 
     // @IsString()
     // @MinLength(1)

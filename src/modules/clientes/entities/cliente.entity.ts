@@ -9,19 +9,19 @@ export class Cliente {
     id: string;
 
     @Column('text', { unique: true} )
-    name: string;
+    nombre: string;
 
     @Column('text', { unique: true })
-    email: string;
+    apellidos: string;
 
     @Column('text', { nullable: true })
-    github: string;
+    direccion: string;
 
     @Column('text', { nullable: true })
-    twitter: string;
+    ciudad: string;
 
     @Column('text',{ nullable: true })
-    website: string;
+    localidad: string;
 
     @OneToOne(
         (type) => Profile,
@@ -41,12 +41,12 @@ export class Cliente {
 
 
 
-    @BeforeInsert()
-    checkGithub(){
-        if (!this.github.includes('https://github.com/')){
-            this.github = `https://github.com/${this.github}`
-        }
-    }
+    // @BeforeInsert()
+    // checkGithub(){
+    //     if (!this.github.includes('https://github.com/')){
+    //         this.github = `https://github.com/${this.github}`
+    //     }
+    // }
 
    
 }

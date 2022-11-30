@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientesModule } from './modules/clientes/clientes.module';
 import { LibrosModule } from './modules/libros/libros.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { CategoriasModule } from './modules/categorias/categorias.module';
+import { AutoresModule } from './modules/autores/autores.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 
 @Module({
@@ -21,7 +24,10 @@ import { ProfileModule } from './modules/profile/profile.module';
     }),
     ClientesModule,
     LibrosModule,
-    ProfileModule
+    ProfileModule,
+    CategoriasModule,
+    AutoresModule,
+    AuthModule
   
   
   ],
