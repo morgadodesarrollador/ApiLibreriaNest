@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-
+import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto, LoginUserDto } from './dto';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateUserDto) {
-    return 'This action adds a new auth';
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ){}
+
+  async login( loginUserDto: LoginUserDto ){
+    try {
+      // buscamos el usuario del email
+      const { email, password } = loginUserDto;
+      const user = await this.userRepository.findOne({ 
+        where: { email },
+        select: { email: true, password: true }
+       });
+
+      if ( !user ) 
+        throw new UnauthorizedException ('Credenciales no válidas (email)');
+
+      //comparamos las contraseñas 
+      if (!bcrypt.compareSync( password, user.password ))
+        throw new UnauthorizedException('Credenciales no válidas (email)')
+
+      return user;
+      //Retornar el JWT
+      
+    } catch (error) {
+      this.handleDBErrors(error)
+    }
+  }
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const { password, ...userData } = createUserDto;
+      const user = this.userRepository.create({
+        ...userData,
+        password: bcrypt.hashSync( password, 10 )
+      });
+      await this.userRepository.save(user);
+      delete user.password;
+      return user;
+    } catch (error) {
+      this.handleDBErrors(error)
+    }
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  private handleDBErrors (error: any): never{
+    if (error.code === '23505')
+      throw new BadRequestException(error.detail)
+    
+    throw new InternalServerErrorException('Please Check Server Error ...')
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
 }
